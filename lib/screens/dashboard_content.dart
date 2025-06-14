@@ -12,7 +12,6 @@ class DashboardContent extends StatelessWidget {
       {'name': 'JeffreyUch23', 'avatar': 'avatar4.png', 'points': 1250},
     ];
 
-    // Ordenação dos jogadores por pontos (do maior para o menor)
     players.sort((a, b) => (b['points'] as int).compareTo(a['points'] as int));
 
     return Scaffold(
@@ -22,19 +21,15 @@ class DashboardContent extends StatelessWidget {
           children: [
             const SizedBox(height: 24),
 
-            // Header com avatar, nome e medalha (PUzumaki21)
-            // Layout ajustado para: avatar à esquerda, nome no centro, medalha à direita
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0), // Adiciona espaçamento lateral
+              padding: const EdgeInsets.symmetric(horizontal: 24.0), 
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween, // Distribui os filhos uniformemente no espaço
+                mainAxisAlignment: MainAxisAlignment.spaceBetween, 
                 children: [
-                  // Avatar do PUzumaki21
                   CircleAvatar(
-                    radius: 30, // Tamanho do avatar principal
+                    radius: 30, 
                     backgroundImage: AssetImage('assets/images/avatar.png'),
                   ),
-                  // Nome do PUzumaki21
                   const Text(
                     'PUzumaki21',
                     style: TextStyle(
@@ -43,7 +38,6 @@ class DashboardContent extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  // Medalha do PUzumaki21 (Prata, conforme sua última instrução)
                   Image.asset('assets/images/prata.png', width: 50, height: 50),
                 ],
               ),
@@ -51,8 +45,7 @@ class DashboardContent extends StatelessWidget {
 
             const SizedBox(height: 32),
 
-            // XP Bar
-            Container(
+           Container(
               margin: const EdgeInsets.symmetric(horizontal: 32),
               padding: const EdgeInsets.symmetric(vertical: 8),
               decoration: BoxDecoration(
@@ -98,7 +91,6 @@ class DashboardContent extends StatelessWidget {
 
             const SizedBox(height: 16),
 
-            // Lista de jogadores dinâmica
             Expanded(
               child: Container(
                 padding: const EdgeInsets.all(16),
@@ -111,7 +103,7 @@ class DashboardContent extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final player = players[index];
                     return _buildPlayerCard(
-                      player['name'] as String, // Passa o nome para determinar a medalha
+                      player['name'] as String,
                       'assets/images/${player['avatar']}',
                       player['points'] as int,
                     );
@@ -125,29 +117,26 @@ class DashboardContent extends StatelessWidget {
     );
   }
 
-  // Função para retornar imagem da medalha baseada no nome do jogador
   String getMedalImageByName(String playerName) {
     debugPrint("Nome do jogador recebido para medalha: $playerName");
     switch (playerName) {
       case 'SkittleBerry':
-        return 'assets/images/diamant.png'; // SkittleBerry é diamante
+        return 'assets/images/diamant.png'; 
       case 'BrayanAlexBr':
-        return 'assets/images/ouro.png'; // BrayanAlexBr é ouro
-      case 'AdilsonDark14':
-      case 'JeffreyUch23': // Ambos Adilson e Jeffrey são prata
+        return 'assets/images/ouro.png';
+      case 'JeffreyUch23': 
         return 'assets/images/prata.png';
-      default: // Para qualquer outro jogador que não esteja listado explicitamente
-        return 'assets/images/prata.png'; // Medalha padrão
+      default: 
+        return 'assets/images/prata.png'; 
     }
   }
 
-  // Widget do card de jogador com imagem de medalha
   Widget _buildPlayerCard(
     String name,
     String avatarPath,
     int points,
   ) {
-    final medalImage = getMedalImageByName(name); // Obtém a medalha pelo nome
+    final medalImage = getMedalImageByName(name); 
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),

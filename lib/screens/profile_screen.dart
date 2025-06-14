@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../models/user_data.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -11,34 +12,22 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Botão Voltar
-            Align(
-              alignment: Alignment.topLeft,
-              child: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ),
-
-            const SizedBox(height: 8),
+            const SizedBox(height: 24),
 
             // Avatar + Nome
             const CircleAvatar(
               radius: 40,
-              backgroundImage: AssetImage(
-                'assets/images/avatar.png',
-              ), // coloque seu avatar
+              backgroundImage: AssetImage('assets/images/avatar.png'),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'PUzumaki21',
-              style: TextStyle(
+            Text(
+              UserData.username,
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-
             const SizedBox(height: 4),
 
             // Medalha
@@ -73,11 +62,11 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    _buildStatBox('Level 3'),
+                    _buildStatBox('Level ${UserData.level}'),
                     const SizedBox(height: 8),
-                    _buildStatBox('850 XP'),
+                    _buildStatBox('${UserData.xp} XP'),
 
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 24),
 
                     const Text(
                       'Histórico de Missões',
@@ -87,19 +76,42 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    _buildStatBox('Descubra a Ciência'),
-                    _buildStatBox('Desafio de Matemática'),
-                    _buildStatBox('Aprenda a História'),
+
+                    _buildMissionItem('Descubra a Ciência'),
+                    const SizedBox(height: 8),
+                    _buildMissionItem('Desafio de Matemática'),
+                    const SizedBox(height: 8),
+                    _buildMissionItem('Aprenda a História'),
 
                     const Spacer(),
 
-                    // Botão (simulando logout ou compartilhamento)
+                    // Facebook + Logout
                     Center(
-                      child: IconButton(
-                        icon: const Icon(Icons.facebook, color: Colors.blue),
-                        onPressed: () {
-                          // ação de compartilhamento ou vinculação futura
-                        },
+                      child: Column(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.facebook, color: Colors.blue),
+                            onPressed: () {
+                              // ação futura de compartilhamento
+                            },
+                          ),
+                          const SizedBox(height: 12),
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              Navigator.pushReplacementNamed(context, '/login');
+                            },
+                            icon: const Icon(Icons.logout),
+                            label: const Text("Sair"),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.redAccent,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -119,7 +131,28 @@ class ProfileScreen extends StatelessWidget {
         color: const Color(0xFFE8E8E8),
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Text(text, style: const TextStyle(fontWeight: FontWeight.bold)),
+      child: Text(
+        text,
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  Widget _buildMissionItem(String text) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: const Color(0xFFE8E8E8),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 14,
+        ),
+      ),
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../models/user_data.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -16,9 +15,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _phoneController = TextEditingController();
 
   void _register() {
-    // Simula cadastro: define nome global e vai pra home
-    UserData.setUsername(_nameController.text);
-    Navigator.pushReplacementNamed(context, '/home');
+    // Apenas volta para a tela de login
+    Navigator.pop(context);
   }
 
   void _goToLogin() {
@@ -34,47 +32,51 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 32),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 24),
 
-                const Text(
-                  'CADASTRE-SE',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                // Título centralizado
+                const Center(
+                  child: Text(
+                    'CADASTRE-SE',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
 
                 const SizedBox(height: 24),
 
-                // Nome de usuário
                 _buildTextField(_nameController, 'Nome de Usuário'),
                 const SizedBox(height: 12),
 
-                // Email
                 _buildTextField(_emailController, 'E-mail'),
                 const SizedBox(height: 12),
 
-                // Senha
                 _buildTextField(_passwordController, 'Criar senha', obscure: true),
                 const SizedBox(height: 12),
 
-                // Data de nascimento
                 _buildTextField(_birthController, 'Data de nascimento'),
                 const SizedBox(height: 12),
 
-                // Celular
                 _buildTextField(_phoneController, 'Celular (opcional)'),
                 const SizedBox(height: 16),
 
-                // Botão de login com Google (simulado)
+                // Botão de login com Google
                 ElevatedButton.icon(
                   onPressed: () {
                     // Simula vínculo com conta Google
                   },
-                  icon: Image.asset('assets/images/google.png', height: 24),
+                  icon: Image.asset(
+                    'assets/images/google.png',
+                    height: 24,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Icon(Icons.error, color: Colors.red);
+                    },
+                  ),
                   label: const Text('Vincular a conta do Google'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
@@ -84,7 +86,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 const SizedBox(height: 24),
 
-                // Botão confirmar (laranja)
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(

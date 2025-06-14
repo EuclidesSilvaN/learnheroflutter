@@ -21,7 +21,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
   assets:
     - assets/images/logo.png
     - assets/images/cat.png 
@@ -30,3 +29,8 @@ flutter:
     - assets/images/avatar2.png
     - assets/images/avatar3.png
     - assets/images/avatar4.png
+    - assets/images/google.png
+    - assets/images/prata.png
+    - assets/images/ouro.png
+    - assets/images/diamant.png
+

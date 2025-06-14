@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/user_data.dart';
+import '../models/user_data.dart'; // Certifique-se de que este caminho está correto
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -10,7 +10,7 @@ class ProfileScreen extends StatelessWidget {
       backgroundColor: const Color(0xFF3738BC),
       body: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center, // Centraliza os filhos na horizontal
           children: [
             const SizedBox(height: 24),
 
@@ -30,8 +30,12 @@ class ProfileScreen extends StatelessWidget {
             ),
             const SizedBox(height: 4),
 
-            // Medalha
-            const Icon(Icons.diamond, color: Colors.white70),
+            // Medalha - AGORA É IMAGEM DA MEDALHA PRATA
+            Image.asset(
+              'assets/images/prata.png', // Caminho para a imagem da medalha prata
+              width: 50, // Ajuste o tamanho conforme necessário
+              height: 50, // Ajuste o tamanho conforme necessário
+            ),
             const Text(
               'PRATA',
               style: TextStyle(

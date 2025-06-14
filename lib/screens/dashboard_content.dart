@@ -5,6 +5,16 @@ class DashboardContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> players = [
+      {'name': 'SkittleBerry', 'avatar': 'avatar1.png', 'points': 3000},
+      {'name': 'BrayanAlexBr', 'avatar': 'avatar2.png', 'points': 1500},
+      {'name': 'AdilsonDark14', 'avatar': 'avatar3.png', 'points': 1250},
+      {'name': 'JeffreyUch23', 'avatar': 'avatar4.png', 'points': 1250},
+    ];
+
+    // Ordenação dos jogadores por pontos (do maior para o menor)
+    players.sort((a, b) => (b['points'] as int).compareTo(a['points'] as int));
+
     return Scaffold(
       backgroundColor: const Color(0xFF3738BC),
       body: SafeArea(
@@ -12,31 +22,31 @@ class DashboardContent extends StatelessWidget {
           children: [
             const SizedBox(height: 24),
 
-            // Header com avatar, nome e medalha
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const CircleAvatar(
-                  radius: 30,
-                  backgroundImage: AssetImage('assets/images/avatar.png'),
-                ),
-                const SizedBox(width: 12),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      'PUzumaki21',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+            // Header com avatar, nome e medalha (PUzumaki21)
+            // Layout ajustado para: avatar à esquerda, nome no centro, medalha à direita
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0), // Adiciona espaçamento lateral
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween, // Distribui os filhos uniformemente no espaço
+                children: [
+                  // Avatar do PUzumaki21
+                  CircleAvatar(
+                    radius: 30, // Tamanho do avatar principal
+                    backgroundImage: AssetImage('assets/images/avatar.png'),
+                  ),
+                  // Nome do PUzumaki21
+                  const Text(
+                    'PUzumaki21',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
-                ),
-                const SizedBox(width: 8),
-                const Icon(Icons.diamond, color: Colors.white, size: 28),
-              ],
+                  ),
+                  // Medalha do PUzumaki21 (Prata, conforme sua última instrução)
+                  Image.asset('assets/images/prata.png', width: 50, height: 50),
+                ],
+              ),
             ),
 
             const SizedBox(height: 32),
@@ -88,7 +98,7 @@ class DashboardContent extends StatelessWidget {
 
             const SizedBox(height: 16),
 
-            // Lista de jogadores
+            // Lista de jogadores dinâmica
             Expanded(
               child: Container(
                 padding: const EdgeInsets.all(16),
@@ -96,33 +106,16 @@ class DashboardContent extends StatelessWidget {
                   color: Colors.white,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
                 ),
-                child: ListView(
-                  children: [
-                    _buildPlayerCard(
-                      'SkittleBerry',
-                      'assets/images/avatar1.png',
-                      3000,
-                      Icons.diamond,
-                    ),
-                    _buildPlayerCard(
-                      'BrayanAlexBr',
-                      'assets/images/avatar2.png',
-                      1500,
-                      Icons.star,
-                    ),
-                    _buildPlayerCard(
-                      'AdilsonDark14',
-                      'assets/images/avatar3.png',
-                      1250,
-                      Icons.diamond,
-                    ),
-                    _buildPlayerCard(
-                      'JeffreyUch23',
-                      'assets/images/avatar4.png',
-                      1250,
-                      Icons.diamond,
-                    ),
-                  ],
+                child: ListView.builder(
+                  itemCount: players.length,
+                  itemBuilder: (context, index) {
+                    final player = players[index];
+                    return _buildPlayerCard(
+                      player['name'] as String, // Passa o nome para determinar a medalha
+                      'assets/images/${player['avatar']}',
+                      player['points'] as int,
+                    );
+                  },
                 ),
               ),
             ),
@@ -132,12 +125,30 @@ class DashboardContent extends StatelessWidget {
     );
   }
 
+  // Função para retornar imagem da medalha baseada no nome do jogador
+  String getMedalImageByName(String playerName) {
+    debugPrint("Nome do jogador recebido para medalha: $playerName");
+    switch (playerName) {
+      case 'SkittleBerry':
+        return 'assets/images/diamant.png'; // SkittleBerry é diamante
+      case 'BrayanAlexBr':
+        return 'assets/images/ouro.png'; // BrayanAlexBr é ouro
+      case 'AdilsonDark14':
+      case 'JeffreyUch23': // Ambos Adilson e Jeffrey são prata
+        return 'assets/images/prata.png';
+      default: // Para qualquer outro jogador que não esteja listado explicitamente
+        return 'assets/images/prata.png'; // Medalha padrão
+    }
+  }
+
+  // Widget do card de jogador com imagem de medalha
   Widget _buildPlayerCard(
     String name,
-    String avatar,
+    String avatarPath,
     int points,
-    IconData medal,
   ) {
+    final medalImage = getMedalImageByName(name); // Obtém a medalha pelo nome
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
       padding: const EdgeInsets.all(16),
@@ -150,7 +161,7 @@ class DashboardContent extends StatelessWidget {
       ),
       child: Row(
         children: [
-          CircleAvatar(radius: 24, backgroundImage: AssetImage(avatar)),
+          CircleAvatar(radius: 24, backgroundImage: AssetImage(avatarPath)),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
@@ -160,7 +171,7 @@ class DashboardContent extends StatelessWidget {
           ),
           Text('$points', style: const TextStyle(fontWeight: FontWeight.bold)),
           const SizedBox(width: 8),
-          Icon(medal, size: 24),
+          Image.asset(medalImage, width: 28, height: 28),
         ],
       ),
     );
